@@ -138,7 +138,7 @@ func main() {
 			}
 		}
 
-		return c.Status(fiber.StatusOK).Send(nil)
+		return c.Status(fiber.StatusNoContent).Send(nil)
 	})
 
 	app.Listen(os.Getenv("BADGER_API_HOST") + ":" + os.Getenv("BADGER_API_PORT"))
