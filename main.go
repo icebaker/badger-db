@@ -14,7 +14,7 @@ func main() {
 		log.Fatal("Error loading .env file")
 	}
 
-	db, openError := badger.Open(badger.DefaultOptions(os.Getenv("BADGER_API_DATA_PATH")))
+	db, openError := badger.Open(badger.DefaultOptions(os.Getenv("BADGER_DB_DATA_PATH")))
 
 	if openError != nil {
 		log.Fatal(openError)
@@ -27,7 +27,7 @@ func main() {
 	app.Get("/", func(c *fiber.Ctx) error {
 		return c.JSON(fiber.Map{
 			"service": "badger-db",
-			"context": os.Getenv("BADGER_API_CONTEXT"),
+			"context": os.Getenv("BADGER_DB_CONTEXT"),
 			"version": "0.0.1",
 			"database": fiber.Map{
 				"storage": "data/badger",
@@ -141,5 +141,5 @@ func main() {
 		return c.Status(fiber.StatusNoContent).Send(nil)
 	})
 
-	app.Listen(os.Getenv("BADGER_API_HOST") + ":" + os.Getenv("BADGER_API_PORT"))
+	app.Listen(os.Getenv("BADGER_DB_HOST") + ":" + os.Getenv("BADGER_DB_PORT"))
 }
