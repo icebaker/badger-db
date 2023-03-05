@@ -1,0 +1,5 @@
+.env
+badger-api
+
+data/*
+!data/.gitkeep 
