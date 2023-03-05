@@ -1,4 +1,4 @@
-module github.com/icebaker/badger-api
+module github.com/icebaker/badger-db
 
 go 1.20
 

@@ -1,4 +1,4 @@
-# Badger DB API
+# Badger DB
 
 A minimalist HTTP API for [Badger DB](https://github.com/dgraph-io/badger/).
 
@@ -8,7 +8,7 @@ Copy the `.env.example` file to `.env` and provide the required data.
 
 ```sh
 go build
-./badger-api
+./badger-db
 ```
 
 ## Usage
