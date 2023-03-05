@@ -36,7 +36,28 @@ func main() {
 		})
 	})
 
-	app.Get("/:key", func(c *fiber.Ctx) error {
+	app.Head("/items/:key", func(c *fiber.Ctx) error {
+		viewError := db.View(func(txn *badger.Txn) error {
+			_, getError := txn.Get([]byte(c.Params("key")))
+			if getError != nil {
+				return getError
+			}
+
+			return nil
+		})
+
+		if viewError != nil {
+			if viewError == badger.ErrKeyNotFound {
+				return c.Status(fiber.StatusNotFound).Send(nil)
+			} else {
+				return viewError
+			}
+		}
+
+		return c.Status(fiber.StatusNoContent).Send(nil)
+	})
+
+	app.Get("/items/:key", func(c *fiber.Ctx) error {
 		var value []byte
 
 		viewError := db.View(func(txn *badger.Txn) error {
@@ -66,7 +87,7 @@ func main() {
 		return c.SendString(string(value))
 	})
 
-	app.Put("/:key", func(c *fiber.Ctx) error {
+	app.Put("/items/:key", func(c *fiber.Ctx) error {
 		exists := true
 
 		updateError := db.Update(func(txn *badger.Txn) error {
@@ -92,7 +113,7 @@ func main() {
 		}
 	})
 
-	app.Delete("/:key", func(c *fiber.Ctx) error {
+	app.Delete("/items/:key", func(c *fiber.Ctx) error {
 		updateError := db.Update(func(txn *badger.Txn) error {
 			_, getError := txn.Get([]byte(c.Params("key")))
 
