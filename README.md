@@ -21,6 +21,25 @@ go build
 | `PUT`     | `/items/:key` | It sets the value for the given `:key`. The value for the key should be sent in the request _body_ as _Plain Text_. Status `201` if created, status `204` if updated. |
 | `DELETE`  | `/items/:key` | It deletes the value for the given `:key`. Status `204` if deleted, status `404` if it already doesn't exists. |
 
+## Docker
+
+```yaml
+version: '3.7'
+
+services:
+  badger-db:
+    image: icebaker/badger-db:0.0.1
+    environment:
+      BADGER_DB_DATA_PATH: /badger-db/data
+      BADGER_DB_CONTEXT: my-service-name
+      BADGER_DB_HOST: 0.0.0.0
+      BADGER_DB_PORT: 9701
+    volumes:
+      - ./my-project/data/badger-db:/badger-db/data
+    ports:
+      - 9701:9701
+```
+
 ## Development
 
 ```sh
